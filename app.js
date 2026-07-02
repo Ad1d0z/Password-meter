@@ -46,6 +46,13 @@ function hasLazyPattern(text) {
   return false;
 }
 
+// Update one checklist row: text + green/grey styling.
+function setCheck(id, ok, name) {
+  const el = document.getElementById(id);
+  el.textContent = `${name} ${ok ? '✓' : '✗'}`;
+  el.className = ok ? 'check pass' : 'check fail';
+}
+
 function updateScore() {
   let score = 0;
 
@@ -59,22 +66,22 @@ function updateScore() {
   const LowerCase = (input.value.match(/[a-z]/g) || []).length;
   const lowerOk = LowerCase >= LOWER_MIN && LowerCase <= LOWER_MAX;
   if (lowerOk) score++;
-  document.getElementById('LowerCase').textContent = `LowerCase: ${lowerOk ? '✓' : '✗'}`;
+  setCheck('LowerCase', lowerOk, 'Lowercase');
 
   const UpperCase = (input.value.match(/[A-Z]/g) || []).length;
   const upperOk = UpperCase >= UPPER_MIN && UpperCase <= UPPER_MAX;
   if (upperOk) score++;
-  document.getElementById('UpperCase').textContent = `UpperCase: ${upperOk ? '✓' : '✗'}`;
+  setCheck('UpperCase', upperOk, 'Uppercase');
 
   const Number = (input.value.match(/[0-9]/g) || []).length;
   const numberOk = Number >= NUMBER_MIN && Number <= NUMBER_MAX;
   if (numberOk) score++;
-  document.getElementById('Number').textContent = `Number: ${numberOk ? '✓' : '✗'}`;
+  setCheck('Number', numberOk, 'Number');
 
   const Symbol = (input.value.match(/[^a-zA-Z0-9]/g) || []).length;
   const symbolOk = Symbol >= SYMBOL_MIN && Symbol <= SYMBOL_MAX;
   if (symbolOk) score++;
-  document.getElementById('Symbol').textContent = `Symbol: ${symbolOk ? '✓' : '✗'}`;
+  setCheck('Symbol', symbolOk, 'Symbol');
 
   // Common/worst passwords are always weak, no matter what else they contain.
   if (COMMON_PASSWORDS.includes(input.value.toLowerCase())) {
@@ -92,12 +99,15 @@ function updateScore() {
   if (score <= 2) {
     color = '#e74c3c';   // red
     label.textContent = 'Weak';
+    label.className = 'badge weak';
   } else if (score <= 4) {
     color = '#f39c12';   // amber
     label.textContent = 'Medium';
+    label.className = 'badge medium';
   } else {
     color = '#2ecc71';   // green
     label.textContent = 'Strong';
+    label.className = 'badge strong';
   }
 
   // Light up one cell per point; leave the rest empty.
@@ -114,3 +124,27 @@ function updateScore() {
   }
 }
 input.addEventListener('input', updateScore);
+
+// "Show password" toggle: switch the input between hidden dots and plain text.
+const showPassword = document.getElementById('showPassword');
+showPassword.addEventListener('change', () => {
+  input.type = showPassword.checked ? 'text' : 'password';
+});
+
+// Dark mode toggle — flips a class on <body> and remembers the choice.
+const themeToggle = document.getElementById('themeToggle');
+
+function applyTheme(theme) {
+  const dark = theme === 'dark';
+  document.body.classList.toggle('dark', dark);
+  themeToggle.textContent = dark ? '☀️' : '🌙';   // show the icon for the OTHER mode
+}
+
+// On load: use the saved choice if there is one.
+applyTheme(localStorage.getItem('theme') || 'light');
+
+themeToggle.addEventListener('click', () => {
+  const next = document.body.classList.contains('dark') ? 'light' : 'dark';
+  localStorage.setItem('theme', next);
+  applyTheme(next);
+});

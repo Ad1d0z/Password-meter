@@ -1,34 +1,196 @@
 /* this is how you write a comment in CSS */
 
-.input-row {
+/* Light theme (default) — every colour lives in a variable so dark mode can swap them. */
+:root {
+  --bg1: #eef1f6;  --bg2: #e2e7f0;      /* page gradient */
+  --card-bg: #ffffff;
+  --text: #1f2430;  --muted: #7a8194;   --soft: #4a5164;
+  --input-bg: #ffffff;  --input-border: #d7dce5;  --placeholder: #b0b6c3;
+  --casing: #e4e8ee;  --segment-empty: #ffffff;
+  --check-fail: #b0b6c3;
+  --warning-bg: #fdecea;  --warning-text: #c0392b;
+  --shadow: rgba(31, 36, 48, 0.12);
+}
+
+/* Dark theme — same variable names, darker values. */
+body.dark {
+  --bg1: #1a1d24;  --bg2: #12141a;
+  --card-bg: #232833;
+  --text: #e8eaf0;  --muted: #9aa2b3;  --soft: #c3c9d6;
+  --input-bg: #1b1f27;  --input-border: #3a4150;  --placeholder: #6b7385;
+  --casing: #1b1f27;  --segment-empty: #2c313d;
+  --check-fail: #6b7385;
+  --warning-bg: #3a2320;  --warning-text: #ff9b8f;
+  --shadow: rgba(0, 0, 0, 0.45);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  padding: 24px;
+  background: linear-gradient(135deg, var(--bg1), var(--bg2));
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.card {
+  position: relative;            /* anchors the theme toggle button */
+  width: 100%;
+  max-width: 420px;
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 28px 28px 24px;
+  box-shadow: 0 10px 30px var(--shadow);
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+#themeToggle {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  border: none;
+  background: transparent;
+  font-size: 1.2rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+h1 {
+  margin: 0 0 20px;
+  font-size: 1.4rem;
+  text-align: center;
+}
+
+label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+#passwordInput {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 1rem;
+  background: var(--input-bg);
+  color: var(--text);
+  border: 1px solid var(--input-border);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.25s ease, color 0.25s ease;
+}
+
+#passwordInput::placeholder {
+  color: var(--placeholder);
+}
+
+#passwordInput:focus {
+  border-color: #4b7bec;
+  box-shadow: 0 0 0 3px rgba(75, 123, 236, 0.15);
+}
+
+/* Hide the browser's built-in reveal/clear icons (Edge/IE) so our own toggle is the only one. */
+#passwordInput::-ms-reveal,
+#passwordInput::-ms-clear {
+  display: none;
+}
+
+/* Our own "Show password" toggle */
+.show-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.show-toggle input {
+  cursor: pointer;
+}
+
+/* Battery-style strength meter */
+.meter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0 8px;
 }
 
 #barContainer {
   display: flex;                /* lay the segments out in a row */
-  gap: 3px;                     /* small gap between cells */
-  width: 200px;
-  height: 22px;
-  padding: 3px;                 /* the battery "casing" around the cells */
-  background: #eee;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  gap: 4px;                     /* small gap between cells */
+  flex: 1;                      /* grow to fill the row */
+  height: 26px;
+  padding: 4px;                 /* the battery "casing" around the cells */
+  background: var(--casing);
+  border-radius: 8px;
+  transition: background-color 0.25s ease;
 }
 
 .segment {
   flex: 1;                      /* every cell takes an equal share of the width */
-  background: #fff;             /* empty cell (JS colours the lit ones) */
-  border-radius: 2px;
+  background: var(--segment-empty);  /* empty cell (JS colours the lit ones) */
+  border-radius: 4px;
   transition: background-color 0.3s ease;  /* smooth fill as cells light up */
 }
 
-#label {
-  font-weight: bold;
+/* Strength label pill (colour set by class from JS) */
+.badge {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.badge:empty  { display: none; }   /* hide before typing */
+.badge.weak   { background: #e74c3c; }
+.badge.medium { background: #f39c12; }
+.badge.strong { background: #2ecc71; }
+
+.score {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--soft);
+  margin: 4px 0 16px;
 }
 
-#warning {
-  color: #c0392b;      /* red-ish */
-  font-weight: bold;
+/* Checklist of requirements */
+.checklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
 }
+
+.check {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--soft);
+}
+.check.pass { color: #27ae60; font-weight: 600; }  /* met */
+.check.fail { color: var(--check-fail); }          /* not met */
+
+#warning {
+  margin: 14px 0 0;
+  padding: 10px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--warning-text);
+  background: var(--warning-bg);
+  border-radius: 8px;
+}
+#warning:empty { display: none; }   /* no empty red box when there's nothing to warn about */

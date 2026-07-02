@@ -8,27 +8,42 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Password-Meter</h1>
-    <label for="passwordInput">Enter Password:</label>
-    <div class="input-row">
-      <input type="password" id="passwordInput" placeholder="Enter your password">
-      <div id="barContainer">
-        <div class="segment"></div>
-        <div class="segment"></div>
-        <div class="segment"></div>
-        <div class="segment"></div>
-        <div class="segment"></div>
-        <div class="segment"></div>
-      </div>
-      <span id="label"></span>
-    </div>
-    <p id="length">Length: 0</p>
-    <p id="LowerCase">Lowercase: ✗</p>
-    <p id="UpperCase">Uppercase: ✗</p>
-    <p id="Number">Number: ✗</p>
-    <p id="Symbol">Symbol: ✗</p>
-    <p id="score">Score: 0 / 6</p>
-    <p id="warning"></p>
+    <main class="card">
+        <button id="themeToggle" type="button" aria-label="Toggle dark mode">🌙</button>
+        <h1>Password Meter 🔐</h1>
+
+        <label for="passwordInput">Enter password</label>
+        <input type="password" id="passwordInput" placeholder="Type a password…">
+
+        <label class="show-toggle">
+          <input type="checkbox" id="showPassword"> Show password
+        </label>
+
+        <div class="meter">
+            <div id="barContainer">
+                <div class="segment"></div>
+                <div class="segment"></div>
+                <div class="segment"></div>
+                <div class="segment"></div>
+                <div class="segment"></div>
+                <div class="segment"></div>
+            </div>
+            <span id="label" class="badge"></span>
+        </div>
+
+        <p id="score" class="score">Score: 0 / 6</p>
+
+        <ul class="checklist">
+            <li id="length" class="check">Length: 0</li>
+            <li id="LowerCase" class="check">Lowercase ✗</li>
+            <li id="UpperCase" class="check">Uppercase ✗</li>
+            <li id="Number" class="check">Number ✗</li>
+            <li id="Symbol" class="check">Symbol ✗</li>
+        </ul>
+
+        <p id="warning"></p>
+    </main>
+
     <script src="app.js"></script>
 </body>
 </html>
