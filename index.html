@@ -1,0 +1,34 @@
+<!-- this is how you write a comment in HTML -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Meter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Password-Meter</h1>
+    <label for="passwordInput">Enter Password:</label>
+    <div class="input-row">
+      <input type="password" id="passwordInput" placeholder="Enter your password">
+      <div id="barContainer">
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+      </div>
+      <span id="label"></span>
+    </div>
+    <p id="length">Length: 0</p>
+    <p id="LowerCase">Lowercase: ✗</p>
+    <p id="UpperCase">Uppercase: ✗</p>
+    <p id="Number">Number: ✗</p>
+    <p id="Symbol">Symbol: ✗</p>
+    <p id="score">Score: 0 / 6</p>
+    <p id="warning"></p>
+    <script src="app.js"></script>
+</body>
+</html>
