@@ -24,6 +24,46 @@ body.dark {
   --shadow: rgba(0, 0, 0, 0.45);
 }
 
+/* Purple theme (hidden easter egg) — indigo→magenta, like the reference image */
+body.purple {
+  --card-bg: #250a40;
+  --text: #f6ecff;  --muted: #c9a3e6;  --soft: #e0ccf5;
+  --input-bg: #1d0733;  --input-border: #d81ad6;  --placeholder: #9a6fc4;
+  --casing: #1d0733;  --segment-empty: #33124f;
+  --check-fail: #9a6fc4;
+  --warning-bg: #350f38;  --warning-text: #ff8fe0;
+  --shadow: rgba(0, 0, 0, 0.55);
+  --neon: #d81ad6;   /* magenta glow */
+
+  /* Flowing indigo -> violet -> magenta gradient (overrides the default body gradient) */
+  background: linear-gradient(135deg, #2b0a4a 0%, #7b1fa2 50%, #d81ad6 100%);
+}
+
+/* Neon glowing outlines — purple theme only */
+body.purple .card {
+  border: 1px solid var(--neon);
+  box-shadow: 0 0 26px rgba(216, 26, 214, 0.4);
+}
+body.purple #passwordInput {
+  border-color: var(--neon);
+}
+body.purple #barContainer {
+  border: 1px solid var(--neon);
+}
+
+/* Hidden easter-egg button — bottom-right, invisible but clickable */
+#purpleToggle {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  opacity: 0;          /* invisible — you have to know it's there */
+  cursor: default;     /* no pointer, so it doesn't reveal itself on hover */
+}
+
 * {
   box-sizing: border-box;
 }
